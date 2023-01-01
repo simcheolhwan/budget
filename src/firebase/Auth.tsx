@@ -1,5 +1,5 @@
 import { PropsWithChildren, useEffect, useState } from "react"
-import { auth } from "../firebase"
+import { auth } from "./config"
 import SignIn from "./SignIn"
 
 const Auth = ({ children }: PropsWithChildren) => {

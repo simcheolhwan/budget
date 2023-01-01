@@ -1,16 +1,25 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
+import { RecoilRoot } from "recoil"
 import { MantineProvider } from "@mantine/core"
-import "./styles/index.scss"
 import App from "./app/App"
-import Auth from "./auth/Auth"
+import Auth from "./firebase/Auth"
+import Database from "./firebase/Database"
+
+const components = {
+  Table: { styles: { root: { fontFeatureSettings: `"tnum"` } } },
+}
 
 createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
-    <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: "dark" }}>
-      <Auth>
-        <App />
-      </Auth>
-    </MantineProvider>
+    <RecoilRoot>
+      <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: "dark", components }}>
+        <Auth>
+          <Database>
+            <App />
+          </Database>
+        </Auth>
+      </MantineProvider>
+    </RecoilRoot>
   </StrictMode>
 )

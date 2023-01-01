@@ -1,7 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { Box, Button, PasswordInput, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { auth } from "../firebase"
+import { auth } from "./config"
 
 const SignIn = () => {
   const { getInputProps, onSubmit } = useForm({ initialValues: { email: "", password: "" } })
