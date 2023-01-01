@@ -1,4 +1,4 @@
-const dictionary: Record<string, string> = {
+const dictionary: Dictionary = {
   bank: "은행",
   receivable: "미수",
   custody: "예치",
