@@ -24,7 +24,7 @@ const BalanceItem = ({ title, accounts }: Props) => {
           </Text>
         )}
         <td>{name}</td>
-        <Text component="td" ta="right">
+        <Text component="td" align="right">
           {amount.toLocaleString()}
         </Text>
       </tr>
@@ -33,8 +33,8 @@ const BalanceItem = ({ title, accounts }: Props) => {
 
   return (
     <Box>
-      <Text weight="bold">{title}</Text>
       <Table withBorder>
+        <caption>{title}</caption>
         <tbody>{rows}</tbody>
       </Table>
     </Box>

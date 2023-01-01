@@ -4,7 +4,7 @@ import AppMain from "./AppMain"
 const App = () => {
   return (
     <AppShell>
-      <Container>
+      <Container size="sm">
         <AppMain />
       </Container>
     </AppShell>

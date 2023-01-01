@@ -28,5 +28,5 @@ interface Item {
   month: number
   amount: number
   category?: string
-  content?: string
+  name?: string
 }

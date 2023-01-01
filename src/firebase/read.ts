@@ -24,7 +24,7 @@ export const useCustody = () => {
 /* annual */
 const date = new Date()
 export const thisYear = date.getFullYear()
-export const thisMonth = date.getMonth()
+export const thisMonth = date.getMonth() + 1
 
 export const useThisYearData = () => {
   const { annual } = useDatabase()
