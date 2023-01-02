@@ -1,4 +1,4 @@
-import { useDatabase } from "../firebase/data"
+import { useDatabase, useYear } from "../firebase/data"
 
 /* balance */
 export const useBalance = () => {
@@ -22,21 +22,18 @@ export const useCustody = () => {
 }
 
 /* annual */
-const date = new Date()
-export const thisYear = date.getFullYear()
-export const thisMonth = date.getMonth() + 1
-
-export const useThisYearData = () => {
+export const useYearData = () => {
   const { annual } = useDatabase()
-  return annual[String(thisYear)]
+  const year = useYear()
+  return annual[String(year)]
 }
 
 export const useIncome = () => {
-  const { income } = useThisYearData()
+  const { income } = useYearData()
   return income
 }
 
 export const useExpense = () => {
-  const { expense } = useThisYearData()
+  const { expense } = useYearData()
   return expense
 }

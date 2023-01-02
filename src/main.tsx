@@ -13,7 +13,7 @@ const components = {
 createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
     <RecoilRoot>
-      <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: "dark", components }}>
+      <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: "dark", components, defaultRadius: "xs" }}>
         <Auth>
           <Database>
             <App />

@@ -11,7 +11,7 @@ const BalanceError = () => {
 
   return (
     <Alert title={title} color={color}>
-      {balanceError}
+      {balanceError.toLocaleString()}
     </Alert>
   )
 }

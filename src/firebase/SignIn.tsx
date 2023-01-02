@@ -2,7 +2,6 @@ import { signInWithEmailAndPassword } from "firebase/auth"
 import { Box, Button, PasswordInput, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { auth } from "./config"
-import translate from "./translate"
 
 const SignIn = () => {
   const { getInputProps, onSubmit } = useForm({ initialValues: { email: "", password: "" } })
@@ -17,10 +16,10 @@ const SignIn = () => {
 
   return (
     <Box component="form" onSubmit={submit} sx={{ maxWidth: 400 }} mx="auto" my="xl">
-      <TextInput label={translate("email")} {...getInputProps("email")} required />
-      <PasswordInput label={translate("password")} {...getInputProps("password")} required mt="md" />
+      <TextInput label="이메일" {...getInputProps("email")} required />
+      <PasswordInput label="비밀번호" {...getInputProps("password")} required mt="md" />
       <Button type="submit" mt="md">
-        {translate("sign in")}
+        로그인
       </Button>
     </Box>
   )

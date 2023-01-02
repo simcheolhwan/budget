@@ -1,33 +1,43 @@
-import { Table, Text } from "@mantine/core"
-import { useThisYearData } from "../firebase/read"
+import { Badge, Group, Table, Text } from "@mantine/core"
+import { useYearData } from "../firebase/read"
 
 const HistoryMonth = ({ month }: { month: number }) => {
-  const { income, expense } = useThisYearData()
+  const { income, expense } = useYearData()
 
-  const incomeThisMonth = income.filter((item) => item.month === month)
-  const expenseThisMonth = expense.filter((item) => item.month === month)
+  const incomeMonth = income.filter((item) => item.month === month)
+  const expenseMonth = expense.filter((item) => item.month === month)
 
-  if (incomeThisMonth.length === 0 && expenseThisMonth.length === 0) return null
+  if (incomeMonth.length === 0 && expenseMonth.length === 0) return null
 
   const getRows = (list: Item[], sign: "+" | "-") => {
-    return list.map((item) => (
-      <tr key={JSON.stringify(item)}>
-        <td>
-          {item.category} {item.name}
-        </td>
-        <Text component="td" align="right" color={{ "+": "green", "-": "red" }[sign]}>
-          {sign} {item.amount.toLocaleString()}
-        </Text>
-      </tr>
-    ))
+    return list.map((item) => {
+      const { category, name, amount } = item
+      return (
+        <tr key={JSON.stringify(item)}>
+          <td>
+            <Group>
+              {category && (
+                <Badge variant="light" color="gray" radius="xs">
+                  {category}
+                </Badge>
+              )}
+              {name}
+            </Group>
+          </td>
+          <Text component="td" align="right" color={{ "+": "green", "-": "red" }[sign]}>
+            {sign} {amount.toLocaleString()}
+          </Text>
+        </tr>
+      )
+    })
   }
 
   return (
     <Table withBorder>
       <caption>{month}월</caption>
       <tbody>
-        {getRows(incomeThisMonth, "+")}
-        {getRows(expenseThisMonth, "-")}
+        {getRows(incomeMonth, "+")}
+        {getRows(expenseMonth, "-")}
       </tbody>
     </Table>
   )
