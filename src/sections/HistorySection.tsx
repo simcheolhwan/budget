@@ -14,13 +14,15 @@ const HistorySection = () => {
         <HistoryMonth month={month} key={month} />
       ))}
 
-      <Group>
-        {year === thisYear && (
-          <Button onClick={() => setYear(year - 1)} variant="outline" color="gray" compact>
-            작년 보기
-          </Button>
-        )}
-      </Group>
+      {import.meta.env.DEV && (
+        <Group>
+          {year === thisYear && (
+            <Button onClick={() => setYear(year - 1)} variant="outline" color="gray" compact>
+              작년 보기
+            </Button>
+          )}
+        </Group>
+      )}
     </Stack>
   )
 }
