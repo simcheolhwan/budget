@@ -1,18 +1,14 @@
 import { Stack } from "@mantine/core"
-import { useDatabase } from "../firebase/data"
 import BalanceError from "./BalanceError"
-import BalanceItem from "./BalanceItem"
+import BalanceItemTable from "./BalanceItemTable"
 
 const BalanceSection = () => {
-  const { balance } = useDatabase()
-  const { bank, custody, receivable } = balance
-
   return (
     <Stack>
       <BalanceError />
-      <BalanceItem title="은행" accounts={bank} />
-      <BalanceItem title="미수" accounts={receivable} />
-      <BalanceItem title="예치" accounts={custody} />
+      <BalanceItemTable title="은행" balanceKey="bank" />
+      <BalanceItemTable title="미수" balanceKey="receivable" />
+      <BalanceItemTable title="예치" balanceKey="custody" />
     </Stack>
   )
 }

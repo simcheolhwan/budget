@@ -4,7 +4,7 @@ interface Dictionary<A = string> {
 
 interface Database {
   balance: Balance
-  annual: { [year: string]: YearData }
+  annual: { [year: string]: List }
 }
 
 interface Balance {
@@ -13,20 +13,24 @@ interface Balance {
   receivable: Account[]
 }
 
+type BalanceKey = keyof Balance
+
 interface Account {
   amount: number
+  name: string
   category?: string
-  name?: string
 }
 
-interface YearData {
+interface List {
   income: Item[]
   expense: Item[]
 }
 
+type ListKey = keyof List
+
 interface Item {
   month: number
+  name: string
   amount: number
   category?: string
-  name?: string
 }
