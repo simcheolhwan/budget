@@ -32,7 +32,7 @@ export class BalanceController {
     return await val(this.ref)
   }
 
-  private async update(accounts: MaybeFormValues<Account>[]) {
+  async update(accounts: MaybeFormValues<Account>[]) {
     await set(this.ref, accounts.map(clean))
   }
 
@@ -66,7 +66,7 @@ export class ListController {
     return await val(this.ref)
   }
 
-  private async update(items: MaybeFormValues<Item>[]) {
+  async update(items: MaybeFormValues<Item>[]) {
     await set(this.ref, items.map(clean))
   }
 

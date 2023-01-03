@@ -1,7 +1,7 @@
 import { Group, Table, Text } from "@mantine/core"
 import { openModal } from "@mantine/modals"
-import { useYearData } from "../firebase/read"
-import { ListController } from "../firebase/write"
+import { useYearData } from "../../firebase/read"
+import { ListController } from "../../firebase/write"
 import AddButton from "./AddButton"
 import DeleteButton from "./DeleteButton"
 import SetItemForm from "./SetItemForm"
@@ -16,7 +16,7 @@ const HistoryItemTable = ({ month }: { month: number }) => {
 
   const getRows = (list: Item[], listKey: ListKey) => {
     return list.map((item) => {
-      const { month, category = "", name, amount } = item
+      const { amount, month, category = "", name, memo = "" } = item
 
       const color = { income: "green", expense: "red" }[listKey]
       const sign = { income: "+", expense: "-" }[listKey]
@@ -34,12 +34,15 @@ const HistoryItemTable = ({ month }: { month: number }) => {
         })
 
       return (
-        <tr onClick={open} key={String(month) + category + name}>
-          <td>
-            <Text color="dimmed">{category}</Text>
-          </td>
+        <tr onClick={open} key={String(month) + category + name + memo}>
+          <td>{category && <Text color="dimmed">{category}</Text>}</td>
 
-          <td>{name}</td>
+          <td>
+            <Group>
+              {name}
+              {memo && <Text color="dimmed">{memo}</Text>}
+            </Group>
+          </td>
 
           <td align="right">
             <Text color={color}>

@@ -1,8 +1,8 @@
 import { Button, Group, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
-import { thisMonth, useYear } from "../firebase/data"
-import { ListController } from "../firebase/write"
+import { thisMonth, useYear } from "../../firebase/data"
+import { ListController } from "../../firebase/write"
 
 const SetItemForm = ({ listKey, initial }: { listKey: ListKey; initial?: Item }) => {
   const year = useYear()

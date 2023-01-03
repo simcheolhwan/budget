@@ -1,7 +1,7 @@
 import { Button, Group, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
-import { BalanceController } from "../firebase/write"
+import { BalanceController } from "../../firebase/write"
 
 const SetAccountForm = ({ balanceKey, initial }: { balanceKey: BalanceKey; initial?: Account }) => {
   const initialValues = { category: "", name: "", amount: "" }

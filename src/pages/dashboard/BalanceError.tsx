@@ -1,5 +1,5 @@
 import { Alert } from "@mantine/core"
-import { useBalanceError } from "../firebase/calc"
+import { useBalanceError } from "../../firebase/calc"
 
 const BalanceError = () => {
   const balanceError = useBalanceError()

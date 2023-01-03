@@ -33,4 +33,5 @@ interface Item {
   name: string
   amount: number
   category?: string
+  memo?: string
 }

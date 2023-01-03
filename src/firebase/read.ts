@@ -22,8 +22,13 @@ export const useCustody = () => {
 }
 
 /* annual */
-export const useYearData = () => {
+export const useAnnual = () => {
   const { annual } = useDatabase()
+  return annual
+}
+
+export const useYearData = () => {
+  const annual = useAnnual()
   const year = useYear()
   return annual[String(year)]
 }

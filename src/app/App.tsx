@@ -1,12 +1,11 @@
-import { AppShell, Container } from "@mantine/core"
-import AppMain from "./AppMain"
+import { AppShell } from "@mantine/core"
+import { Outlet } from "react-router-dom"
+import AppHeader from "./AppHeader"
 
 const App = () => {
   return (
-    <AppShell>
-      <Container size="sm">
-        <AppMain />
-      </Container>
+    <AppShell header={<AppHeader />}>
+      <Outlet />
     </AppShell>
   )
 }
