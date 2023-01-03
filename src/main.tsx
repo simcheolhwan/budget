@@ -1,4 +1,3 @@
-import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { RecoilRoot } from "recoil"
 import { MantineProvider, MantineThemeOverride } from "@mantine/core"
@@ -22,17 +21,15 @@ const theme: MantineThemeOverride = {
 }
 
 createRoot(document.getElementById("root") as HTMLElement).render(
-  <StrictMode>
-    <RecoilRoot>
-      <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-        <ModalsProvider>
-          <Auth>
-            <Database>
-              <App />
-            </Database>
-          </Auth>
-        </ModalsProvider>
-      </MantineProvider>
-    </RecoilRoot>
-  </StrictMode>
+  <RecoilRoot>
+    <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+      <ModalsProvider>
+        <Auth>
+          <Database>
+            <App />
+          </Database>
+        </Auth>
+      </ModalsProvider>
+    </MantineProvider>
+  </RecoilRoot>
 )

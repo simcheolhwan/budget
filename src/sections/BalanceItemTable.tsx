@@ -1,3 +1,4 @@
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { Box, Group, Table, Text, useMantineTheme } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 import { uniq } from "ramda"
@@ -20,11 +21,11 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
   const categories = uniq(accounts.map(({ category }) => category).filter(Boolean))
   const hasCategory = categories.length > 0
 
-  const rows = accounts.map((account) => {
+  const rows = accounts.map((account, index) => {
     const { category = "", name, amount } = account
 
-    const index = categories.indexOf(category)
-    const color = ["red", "green", "orange", "cyan", "gray"][index]
+    const categoryIndex = categories.indexOf(category)
+    const color = ["red", "green", "orange", "cyan", "gray"][categoryIndex]
 
     const balance = new BalanceController(balanceKey)
 
@@ -38,37 +39,52 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
         children: <SetAccountForm balanceKey={balanceKey} initial={account} />,
       })
 
+    const id = [category, name].filter(Boolean).join(" ")
+
     return (
-      <tr onClick={open} key={category + name}>
-        {hasCategory && (
-          <td>
-            <Text color={colors[color]?.[3]} size="sm">
-              {category}
-            </Text>
-          </td>
+      <Draggable index={index} draggableId={id} key={id}>
+        {(provided) => (
+          <tr {...provided.draggableProps} ref={provided.innerRef}>
+            {hasCategory && (
+              <td {...provided.dragHandleProps}>
+                <Text color={colors[color]?.[3]} size="sm">
+                  {category}
+                </Text>
+              </td>
+            )}
+
+            <td onClick={open}>{name}</td>
+
+            <td align="right">{amount.toLocaleString()}</td>
+          </tr>
         )}
-
-        <td>{name}</td>
-
-        <td align="right">{amount.toLocaleString()}</td>
-      </tr>
+      </Draggable>
     )
   })
 
   return (
     <Box>
-      <Table>
-        <caption>
-          <Group position="apart">
-            {title}
-            <AddButton title={title}>
-              <SetAccountForm balanceKey={balanceKey} />
-            </AddButton>
-          </Group>
-        </caption>
+      <DragDropContext onDragEnd={({ destination, source }) => console.log({ from: source.index, to: destination?.index || 0 })}>
+        <Table>
+          <caption>
+            <Group position="apart">
+              {title}
+              <AddButton title={title}>
+                <SetAccountForm balanceKey={balanceKey} />
+              </AddButton>
+            </Group>
+          </caption>
 
-        <tbody>{rows}</tbody>
-      </Table>
+          <Droppable droppableId={balanceKey} direction="vertical">
+            {(provided) => (
+              <tbody {...provided.droppableProps} ref={provided.innerRef}>
+                {rows}
+                {provided.placeholder}
+              </tbody>
+            )}
+          </Droppable>
+        </Table>
+      </DragDropContext>
     </Box>
   )
 }
