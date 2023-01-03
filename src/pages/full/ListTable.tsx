@@ -1,45 +1,56 @@
-import { Box, Group, Table, Text } from "@mantine/core"
-import { openModal } from "@mantine/modals"
+import { Group, Table, Text } from "@mantine/core"
 import { sum } from "ramda"
-import { useAnnual } from "../../firebase/read"
-import EditList from "./EditList"
+import { useFilter } from "./Filter"
 
-const ListTable = ({ year, listKey }: { year: number; listKey: ListKey }) => {
-  const annual = useAnnual()
-  const list = annual[year][listKey]
+interface Props {
+  caption?: string
+  list: Item[]
+  onRowClick?: (item: Item) => void
+}
+
+const ListTable = ({ caption, list, onRowClick }: Props) => {
+  const { groupKey } = useFilter()
+
+  if (!list.length) return null
 
   return (
-    <Box onClick={() => openModal({ children: <EditList year={year} listKey={listKey} /> })}>
-      <Table>
-        <thead>
-          <tr>
-            <th>월</th>
-            <th>분류</th>
-            <th>이름</th>
-            <th>{sum(list.map(({ amount }) => amount)).toLocaleString()}</th>
-          </tr>
-        </thead>
+    <Table>
+      {caption && <caption>{caption}</caption>}
 
-        <tbody>
-          {list.map((item) => {
-            const { month, category, name, memo, amount } = item
-            return (
-              <tr key={JSON.stringify(item)}>
-                <td>{month}</td>
-                <td>{category}</td>
-                <td>
-                  <Group>
-                    {name}
-                    <Text color="dimmed">{memo}</Text>
-                  </Group>
-                </td>
-                <td align="right">{amount.toLocaleString()}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </Table>
-    </Box>
+      <thead>
+        <tr>
+          {groupKey !== "month" && <th>월</th>}
+          {groupKey !== "category" && <th>분류</th>}
+          <th>이름</th>
+          <th>
+            <Text align="right">{sum(list.map(({ amount }) => amount)).toLocaleString()}</Text>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {list.map((item) => {
+          const { month, category, name, memo, amount } = item
+          return (
+            <tr onClick={() => onRowClick?.(item)} key={JSON.stringify(item)}>
+              {groupKey !== "month" && <td style={{ width: "3rem" }}>{month}</td>}
+              {groupKey !== "category" && <td style={{ width: "5rem" }}>{category}</td>}
+
+              <td>
+                <Group>
+                  {name}
+                  <Text size="xs" color="dimmed">
+                    {memo}
+                  </Text>
+                </Group>
+              </td>
+
+              <td align="right">{amount.toLocaleString()}</td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </Table>
   )
 }
 

@@ -1,18 +1,21 @@
-import { useState } from "react"
-import { Container, Group, SegmentedControl, Tabs } from "@mantine/core"
+import { Container, Stack, Tabs } from "@mantine/core"
 import { useAnnual } from "../../firebase/read"
-import ListTable from "./ListTable"
+import Filter, { useFilterState } from "./Filter"
+import ItemError from "./ItemError"
+import Year from "./Year"
 
 const Full = () => {
+  const [{ year }, setFilter] = useFilterState()
   const annual = useAnnual()
   const years = Object.keys(annual)
 
-  const [listKey, setListKey] = useState<ListKey>("income")
-
   return (
-    <Container>
-      <Tabs defaultValue={years.at(-2)}>
-        <Group position="apart">
+    <Container size="sm">
+      <Stack spacing="xs">
+        <Filter />
+        <ItemError />
+
+        <Tabs value={year} onTabChange={(year) => year && setFilter({ year })} orientation="vertical">
           <Tabs.List>
             {years.map((year) => (
               <Tabs.Tab value={year} key={year}>
@@ -21,22 +24,13 @@ const Full = () => {
             ))}
           </Tabs.List>
 
-          <SegmentedControl
-            value={listKey}
-            onChange={(key) => setListKey(key as ListKey)}
-            data={[
-              { label: "수입", value: "income" },
-              { label: "지출", value: "expense" },
-            ]}
-          />
-        </Group>
-
-        {years.map((year) => (
-          <Tabs.Panel value={year} pt="xs" key={year}>
-            <ListTable year={Number(year)} listKey={listKey} />
-          </Tabs.Panel>
-        ))}
-      </Tabs>
+          {years.map((year) => (
+            <Tabs.Panel value={year} pl="xs" key={year}>
+              <Year />
+            </Tabs.Panel>
+          ))}
+        </Tabs>
+      </Stack>
     </Container>
   )
 }

@@ -1,16 +1,14 @@
 import { Button, Group, Stack } from "@mantine/core"
 import { useRecoilState } from "recoil"
-import { thisYear, yearState } from "../../firebase/data"
+import { months, thisYear, yearState } from "../../firebase/data"
 import HistoryItemTable from "./HistoryItemTable"
-
-const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 const HistorySection = () => {
   const [year, setYear] = useRecoilState(yearState)
 
   return (
     <Stack>
-      {MONTHS.map((month) => (
+      {months.map((month) => (
         <HistoryItemTable month={month} key={month} />
       ))}
 

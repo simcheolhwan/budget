@@ -16,6 +16,7 @@ export const useDatabase = () => {
 const now = new Date()
 export const thisYear = now.getFullYear()
 export const thisMonth = now.getMonth() + 1
+export const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 export const yearState = atom({
   key: "year",

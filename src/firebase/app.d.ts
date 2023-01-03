@@ -29,9 +29,9 @@ interface List {
 type ListKey = keyof List
 
 interface Item {
-  month: number
-  name: string
   amount: number
+  month?: number
   category?: string
+  name?: string
   memo?: string
 }

@@ -16,7 +16,7 @@ const HistoryItemTable = ({ month }: { month: number }) => {
 
   const getRows = (list: Item[], listKey: ListKey) => {
     return list.map((item) => {
-      const { amount, month, category = "", name, memo = "" } = item
+      const { amount, category, name, memo } = item
 
       const color = { income: "green", expense: "red" }[listKey]
       const sign = { income: "+", expense: "-" }[listKey]
@@ -26,7 +26,7 @@ const HistoryItemTable = ({ month }: { month: number }) => {
       const open = () =>
         openModal({
           title: (
-            <DeleteButton title={name} onDelete={() => list.deleteItem(item)}>
+            <DeleteButton title={name ?? category ?? ""} onDelete={() => list.deleteItem(item)}>
               {name}
             </DeleteButton>
           ),
@@ -34,13 +34,17 @@ const HistoryItemTable = ({ month }: { month: number }) => {
         })
 
       return (
-        <tr onClick={open} key={String(month) + category + name + memo}>
+        <tr onClick={open} key={JSON.stringify(item)}>
           <td>{category && <Text color="dimmed">{category}</Text>}</td>
 
           <td>
             <Group>
               {name}
-              {memo && <Text color="dimmed">{memo}</Text>}
+              {memo && (
+                <Text size="xs" color="dimmed">
+                  {memo}
+                </Text>
+              )}
             </Group>
           </td>
 

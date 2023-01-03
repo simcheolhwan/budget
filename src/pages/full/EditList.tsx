@@ -1,16 +1,17 @@
 import { Button, Stack, Textarea } from "@mantine/core"
+import { getHotkeyHandler } from "@mantine/hooks"
 import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
-import { useAnnual } from "../../firebase/read"
 import { ListController } from "../../firebase/write"
+import { useFilter, useFilteredList } from "./Filter"
 
-const EditList = ({ year, listKey }: { year: number; listKey: ListKey }) => {
-  const annual = useAnnual()
-  const list = annual[year][listKey]
+const EditList = () => {
+  const { year, listKey } = useFilter()
+  const list = useFilteredList()
   const { getInputProps, onSubmit } = useForm({ initialValues: { value: JSON.stringify(list, null, 2) } })
 
   const submit = onSubmit(async ({ value }) => {
-    const list = new ListController(listKey, year)
+    const list = new ListController(listKey, Number(year))
 
     try {
       await list.update(JSON.parse(value))
@@ -23,7 +24,15 @@ const EditList = ({ year, listKey }: { year: number; listKey: ListKey }) => {
   return (
     <form onSubmit={submit}>
       <Stack>
-        <Textarea {...getInputProps("value")} autosize />
+        <Textarea
+          {...getInputProps("value")}
+          onKeyDown={getHotkeyHandler([
+            ["mod+Enter", () => submit()],
+            ["mod+S", () => submit()],
+          ])}
+          autosize
+        />
+
         <Button type="submit" color="green">
           제출
         </Button>

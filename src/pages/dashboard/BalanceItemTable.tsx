@@ -39,7 +39,7 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
       })
 
     return (
-      <tr onClick={open} key={category + name}>
+      <tr onClick={open} key={JSON.stringify(account)}>
         {hasCategory && (
           <td>
             <Text color={colors[color]?.[3]} size="sm">
