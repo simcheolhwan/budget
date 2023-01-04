@@ -1,18 +1,13 @@
 import { Group, Table, Text } from "@mantine/core"
 import { openModal } from "@mantine/modals"
-import { thisMonth, thisYear } from "../../firebase/data"
-import { useList } from "../../firebase/read"
+import { thisYear } from "../../firebase/data"
 import { ListController } from "../../firebase/write"
 import AddButton from "./AddButton"
 import DeleteButton from "./DeleteButton"
 import SetItemForm from "./SetItemForm"
 
-const HistoryItemTable = ({ title, listKey }: { title: string; listKey: ListKey }) => {
+const HistoryItemTable = ({ title, list, listKey }: { title: string; list: Item[]; listKey: ListKey }) => {
   const year = thisYear
-  const month = thisMonth
-  const list = useList(listKey, { year, month })
-
-  if (list.length === 0) return null
 
   const renderAmount = (amount: number) => {
     if (!amount) return <Text color="dimmed">0</Text>
