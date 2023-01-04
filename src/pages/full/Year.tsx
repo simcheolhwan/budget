@@ -1,11 +1,13 @@
 import { Stack, Tabs } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 import { months } from "../../firebase/data"
+import { useUI } from "../../firebase/read"
 import SetItemForm from "../dashboard/SetItemForm"
 import { useFilter, useFilteredList } from "./Filter"
 import ListTable from "./ListTable"
 
 const Year = () => {
+  const ui = useUI()
   const { year, listKey, groupKey } = useFilter()
   const list = useFilteredList()
 
@@ -22,10 +24,11 @@ const Year = () => {
   }
 
   if (groupKey === "category") {
-    const categories = [...new Set(list.map((item) => item.category))].sort((a = "", b = "") => a.localeCompare(b))
+    const getIndex = (category: string) => ui.groups.flat().indexOf(category)
+    const categories = [...new Set(list.map((item) => item.category))].sort((a = "", b = "") => getIndex(a) - getIndex(b))
 
     return (
-      <Tabs variant="outline" orientation="vertical" defaultValue={"전자제품"}>
+      <Tabs variant="outline" orientation="vertical" defaultValue={{ income: "근로소득", expense: "전자제품" }[listKey]} key={listKey}>
         <Tabs.List>
           {categories.map((category) => {
             const tabKey = category ?? "미분류"

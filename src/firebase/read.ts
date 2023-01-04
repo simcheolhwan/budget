@@ -42,3 +42,9 @@ export const useExpense = () => {
   const { expense } = useYearData()
   return expense
 }
+
+/* ui */
+export const useUI = () => {
+  const { ui } = useDatabase()
+  return ui
+}

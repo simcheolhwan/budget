@@ -1,83 +1,73 @@
 import { Group, Table, Text } from "@mantine/core"
 import { openModal } from "@mantine/modals"
+import { thisMonth } from "../../firebase/data"
 import { useYearData } from "../../firebase/read"
 import { ListController } from "../../firebase/write"
 import AddButton from "./AddButton"
 import DeleteButton from "./DeleteButton"
 import SetItemForm from "./SetItemForm"
 
-const HistoryItemTable = ({ month }: { month: number }) => {
-  const { income, expense } = useYearData()
+const HistoryItemTable = ({ title, listKey }: { title: string; listKey: ListKey }) => {
+  const { [listKey]: data } = useYearData()
 
-  const incomeMonth = income.filter((item) => item.month === month)
-  const expenseMonth = expense.filter((item) => item.month === month)
+  const list = data.filter((item) => item.month === thisMonth)
 
-  if (incomeMonth.length === 0 && expenseMonth.length === 0) return null
+  if (list.length === 0) return null
 
-  const getRows = (list: Item[], listKey: ListKey) => {
-    return list.map((item) => {
-      const { amount, category, name, memo } = item
-
-      const color = { income: "green", expense: "red" }[listKey]
-      const sign = { income: "+", expense: "-" }[listKey]
-
-      const list = new ListController(listKey)
-
-      const open = () =>
-        openModal({
-          title: (
-            <DeleteButton title={name ?? category ?? ""} onDelete={() => list.deleteItem(item)}>
-              {name}
-            </DeleteButton>
-          ),
-          children: <SetItemForm listKey={listKey} initial={item} />,
-        })
-
-      return (
-        <tr onClick={open} key={JSON.stringify(item)}>
-          <td>{category && <Text color="dimmed">{category}</Text>}</td>
-
-          <td>
-            <Group>
-              {name}
-              {memo && (
-                <Text size="xs" color="dimmed">
-                  {memo}
-                </Text>
-              )}
-            </Group>
-          </td>
-
-          <td align="right">
-            <Text color={color}>
-              {sign} {amount.toLocaleString()}
-            </Text>
-          </td>
-        </tr>
-      )
-    })
+  const renderAmount = (amount: number) => {
+    if (!amount) return <Text color="dimmed">0</Text>
+    if (listKey === "income") return <Text color="green">+ {amount.toLocaleString()}</Text>
+    if (amount < 0) return <Text color="green">+ {Math.abs(amount).toLocaleString()}</Text>
+    return <Text color="red">- {amount.toLocaleString()}</Text>
   }
+
+  const rows = list.map((item) => {
+    const { amount, category, name, memo } = item
+
+    const list = new ListController(listKey)
+
+    const open = () =>
+      openModal({
+        title: (
+          <DeleteButton title={name ?? category ?? ""} onDelete={() => list.deleteItem(item)}>
+            {name}
+          </DeleteButton>
+        ),
+        children: <SetItemForm listKey={listKey} initial={item} />,
+      })
+
+    return (
+      <tr onClick={open} key={JSON.stringify(item)}>
+        <td>{category && <Text color="dimmed">{category}</Text>}</td>
+
+        <td>
+          <Group>
+            {name}
+            {memo && (
+              <Text size="xs" color="dimmed">
+                {memo}
+              </Text>
+            )}
+          </Group>
+        </td>
+
+        <td align="right">{renderAmount(amount)}</td>
+      </tr>
+    )
+  })
 
   return (
     <Table>
       <caption>
         <Group position="apart">
-          {month}월
-          <Group spacing={0}>
-            <AddButton title="수입">
-              <SetItemForm listKey="income" />
-            </AddButton>
-            <AddButton title="지출" minus>
-              <SetItemForm listKey="expense" />
-            </AddButton>
-          </Group>
+          {title}
+          <AddButton title={title} minus={listKey === "expense"}>
+            <SetItemForm listKey={listKey} />
+          </AddButton>
         </Group>
       </caption>
 
-      <tbody>
-        {getRows(incomeMonth, "income")}
-        {getRows(expenseMonth, "expense")}
-      </tbody>
+      <tbody>{rows}</tbody>
     </Table>
   )
 }
