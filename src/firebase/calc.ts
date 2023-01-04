@@ -1,9 +1,10 @@
 import { sum } from "ramda"
-import { useYearData, useBalance } from "./read"
+import { thisYear } from "./data"
+import { useBalance, useYear } from "./read"
 
 export const useBalanceError = () => {
   const { bank, receivable, custody } = useBalance()
-  const { income, expense } = useYearData()
+  const { income, expense } = useYear(thisYear)
 
   const totalBank = sum(bank.map(({ amount }) => amount))
   const totalReceivable = sum(receivable.map(({ amount }) => amount))

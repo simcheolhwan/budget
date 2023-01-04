@@ -1,16 +1,16 @@
 import { Group, Table, Text } from "@mantine/core"
 import { openModal } from "@mantine/modals"
-import { thisMonth } from "../../firebase/data"
-import { useYearData } from "../../firebase/read"
+import { thisMonth, thisYear } from "../../firebase/data"
+import { useList } from "../../firebase/read"
 import { ListController } from "../../firebase/write"
 import AddButton from "./AddButton"
 import DeleteButton from "./DeleteButton"
 import SetItemForm from "./SetItemForm"
 
 const HistoryItemTable = ({ title, listKey }: { title: string; listKey: ListKey }) => {
-  const { [listKey]: data } = useYearData()
-
-  const list = data.filter((item) => item.month === thisMonth)
+  const year = thisYear
+  const month = thisMonth
+  const list = useList(listKey, { year, month })
 
   if (list.length === 0) return null
 
@@ -33,7 +33,7 @@ const HistoryItemTable = ({ title, listKey }: { title: string; listKey: ListKey 
             {name}
           </DeleteButton>
         ),
-        children: <SetItemForm listKey={listKey} initial={item} />,
+        children: <SetItemForm year={year} listKey={listKey} initial={item} />,
       })
 
     return (
@@ -62,7 +62,7 @@ const HistoryItemTable = ({ title, listKey }: { title: string; listKey: ListKey 
         <Group position="apart">
           {title}
           <AddButton title={title} minus={listKey === "expense"}>
-            <SetItemForm listKey={listKey} />
+            <SetItemForm year={year} listKey={listKey} />
           </AddButton>
         </Group>
       </caption>

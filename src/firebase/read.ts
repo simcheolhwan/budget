@@ -1,4 +1,5 @@
-import { useDatabase, useYear } from "../firebase/data"
+import { useDatabase } from "../firebase/data"
+import { useSortList } from "./sort"
 
 /* balance */
 export const useBalance = () => {
@@ -27,20 +28,17 @@ export const useAnnual = () => {
   return annual
 }
 
-export const useYearData = () => {
+export const useYear = (year: number) => {
   const annual = useAnnual()
-  const year = useYear()
   return annual[String(year)]
 }
 
-export const useIncome = () => {
-  const { income } = useYearData()
-  return income
-}
-
-export const useExpense = () => {
-  const { expense } = useYearData()
-  return expense
+export const useList = (listKey: ListKey, { year, month }: { year: number; month?: number }) => {
+  const sortList = useSortList()
+  const data = useYear(year)
+  const { [listKey]: list } = data
+  if (month) return sortList(list.filter((item) => item.month === month))
+  return sortList(list)
 }
 
 /* ui */

@@ -1,12 +1,12 @@
-import { Button, Group, Stack, TextInput } from "@mantine/core"
+import { Button, Select, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
-import { thisMonth, useYear } from "../../firebase/data"
+import { thisMonth } from "../../firebase/data"
+import { useUI } from "../../firebase/read"
 import { ListController } from "../../firebase/write"
 
-const SetItemForm = ({ listKey, initial, ...props }: { listKey: ListKey; initial?: Item; year?: number }) => {
-  const currentYear = useYear()
-  const year = props.year ?? currentYear
+const SetItemForm = ({ year, listKey, initial }: { year: number; listKey: ListKey; initial?: Item }) => {
+  const ui = useUI()
 
   const initialValues = { month: String(thisMonth), category: "", name: "", amount: "", memo: "" }
   const { getInputProps, onSubmit } = useForm({ initialValues: { ...initialValues, ...initial } })
@@ -21,12 +21,15 @@ const SetItemForm = ({ listKey, initial, ...props }: { listKey: ListKey; initial
   return (
     <form onSubmit={submit}>
       <Stack>
-        <Group grow>
-          <TextInput label="월" {...getInputProps("month")} />
-          <TextInput label="이름" {...getInputProps("name")} />
-          <TextInput label="카테고리" {...getInputProps("category")} />
-        </Group>
+        <TextInput label="월" {...getInputProps("month")} />
 
+        {listKey === "expense" ? (
+          <Select label="카테고리" {...getInputProps("category")} data={ui.groups.flat()} searchable clearable />
+        ) : (
+          <TextInput label="카테고리" {...getInputProps("category")} />
+        )}
+
+        <TextInput label="이름" {...getInputProps("name")} />
         <TextInput label="금액" {...getInputProps("amount")} required data-autofocus />
         <TextInput label="메모" {...getInputProps("memo")} />
 
