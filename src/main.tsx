@@ -19,6 +19,9 @@ const theme: MantineThemeOverride = {
     Modal: {
       defaultProps: { transitionDuration: 0, overflow: "inside" },
     },
+    Menu: {
+      defaultProps: { transitionDuration: 0 },
+    },
   },
 }
 

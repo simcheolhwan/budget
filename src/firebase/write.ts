@@ -44,7 +44,7 @@ export class BalanceController {
 
   async updateAccount(target: MaybeFormValues<Account>, updates: MaybeFormValues<Account>) {
     const prev = await this.get()
-    const next = prev.map((account) => (equals(account, target) ? updates : account))
+    const next = prev.map((account) => (equals(account, target) ? { ...account, ...updates } : account))
     await this.update(next)
   }
 
@@ -78,7 +78,7 @@ export class ListController {
 
   async updateItem(target: MaybeFormValues<Item>, updates: MaybeFormValues<Item>) {
     const prev = await this.get()
-    const next = prev.map((item) => (equals(item, target) ? updates : item))
+    const next = prev.map((item) => (equals(item, target) ? { ...item, ...updates } : item))
     await this.update(next)
   }
 

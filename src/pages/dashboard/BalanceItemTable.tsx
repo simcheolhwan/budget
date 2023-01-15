@@ -1,8 +1,10 @@
-import { Box, Group, Table, Text, useMantineTheme } from "@mantine/core"
+import { Box, Group, Menu, Table, Text, useMantineTheme } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 import { uniq } from "ramda"
+import { useBalanceError } from "../../firebase/calc"
 import { useBalance } from "../../firebase/read"
 import { BalanceController } from "../../firebase/write"
+import { promptNumber } from "../../data/utils"
 import AddButton from "./AddButton"
 import DeleteButton from "./DeleteButton"
 import SetAccountForm from "./SetAccountForm"
@@ -14,6 +16,7 @@ interface Props {
 
 const BalanceItemTable = ({ title, balanceKey }: Props) => {
   const { colors } = useMantineTheme()
+  const balanceError = useBalanceError()
   const balance = useBalance()
   const accounts = balance[balanceKey]
 
@@ -28,7 +31,7 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
 
     const balance = new BalanceController(balanceKey)
 
-    const open = () =>
+    const open = () => {
       openModal({
         title: (
           <DeleteButton title={name} onDelete={() => balance.deleteAccount(account)}>
@@ -37,20 +40,44 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
         ),
         children: <SetAccountForm balanceKey={balanceKey} initial={account} />,
       })
+    }
+
+    const edit = () => {
+      promptNumber(title, amount, async (amount) => balance.updateAccount(account, { amount }))
+    }
+
+    const auto = () => {
+      balance.updateAccount(account, { amount: amount - balanceError })
+    }
 
     return (
-      <tr onClick={open} key={JSON.stringify(account)}>
+      <tr key={JSON.stringify(account)}>
         {hasCategory && (
-          <td>
+          <td onClick={open}>
             <Text color={colors[color]?.[3]} size="sm">
               {category}
             </Text>
           </td>
         )}
 
-        <td>{name}</td>
+        <td onClick={open}>{name}</td>
 
-        <td align="right">{amount.toLocaleString()}</td>
+        <td align="right">
+          {balanceError ? (
+            <Menu>
+              <Menu.Target>
+                <Text>{amount.toLocaleString()}</Text>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Item onClick={edit}>편집</Menu.Item>
+                <Menu.Item onClick={auto}>자동</Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          ) : (
+            <Text onClick={edit}>{amount.toLocaleString()}</Text>
+          )}
+        </td>
       </tr>
     )
   })

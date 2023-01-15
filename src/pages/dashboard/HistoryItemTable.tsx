@@ -1,5 +1,7 @@
-import { Group, Table, Text } from "@mantine/core"
+import { Group, Menu, Table, Text } from "@mantine/core"
 import { openModal } from "@mantine/modals"
+import { promptNumber } from "../../data/utils"
+import { useBalanceError } from "../../firebase/calc"
 import { thisYear } from "../../firebase/data"
 import { ListController } from "../../firebase/write"
 import AddButton from "./AddButton"
@@ -8,34 +10,41 @@ import SetItemForm from "./SetItemForm"
 
 const HistoryItemTable = ({ title, list, listKey }: { title: string; list: Item[]; listKey: ListKey }) => {
   const year = thisYear
-
-  const renderAmount = (amount: number) => {
-    if (!amount) return <Text color="dimmed">0</Text>
-    if (listKey === "income") return <Text color="green">+ {amount.toLocaleString()}</Text>
-    if (amount < 0) return <Text color="green">+ {Math.abs(amount).toLocaleString()}</Text>
-    return <Text color="red">- {amount.toLocaleString()}</Text>
-  }
+  const balanceError = useBalanceError()
 
   const rows = list.map((item) => {
     const { amount, category, name, memo } = item
 
     const list = new ListController(listKey)
+    const title = name ?? category ?? ""
 
-    const open = () =>
+    const open = () => {
       openModal({
         title: (
-          <DeleteButton title={name ?? category ?? ""} onDelete={() => list.deleteItem(item)}>
+          <DeleteButton title={title} onDelete={() => list.deleteItem(item)}>
             {name}
           </DeleteButton>
         ),
         children: <SetItemForm year={year} listKey={listKey} initial={item} />,
       })
+    }
+
+    const edit = () => {
+      promptNumber(title, amount, async (amount) => list.updateItem(item, { amount }))
+    }
+
+    const auto = () => {
+      const result = { income: amount + balanceError, expense: amount - balanceError }[listKey]
+      list.updateItem(item, { amount: result })
+    }
 
     return (
-      <tr onClick={open} key={JSON.stringify(item)}>
-        <td>{category && <Text color="dimmed">{category}</Text>}</td>
+      <tr key={JSON.stringify(item)}>
+        <td width={80} onClick={open}>
+          {category && <Text color="dimmed">{category}</Text>}
+        </td>
 
-        <td>
+        <td onClick={open}>
           <Group>
             {name}
             {memo && (
@@ -46,7 +55,22 @@ const HistoryItemTable = ({ title, list, listKey }: { title: string; list: Item[
           </Group>
         </td>
 
-        <td align="right">{renderAmount(amount)}</td>
+        <td align="right">
+          {balanceError ? (
+            <Menu>
+              <Menu.Target>
+                <Text>{amount.toLocaleString()}</Text>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Item onClick={edit}>편집</Menu.Item>
+                <Menu.Item onClick={auto}>자동</Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          ) : (
+            <Text onClick={edit}>{amount.toLocaleString()}</Text>
+          )}
+        </td>
       </tr>
     )
   })
