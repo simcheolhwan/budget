@@ -1,8 +1,11 @@
-import { Container, Grid } from "@mantine/core"
+import { Container, Grid, Text } from "@mantine/core"
+import { useYearBalance } from "../../firebase/calc"
 import BalanceSection from "./BalanceSection"
 import HistorySection from "./HistorySection"
 
 const Dashboard = () => {
+  const yearBalance = useYearBalance()
+
   return (
     <Container size="sm">
       <Grid>
@@ -11,6 +14,9 @@ const Dashboard = () => {
         </Grid.Col>
         <Grid.Col md={6}>
           <HistorySection />
+          <Text size="xs" mt="xs" color="dimmed" align="right">
+            잔고 {yearBalance.toLocaleString()}
+          </Text>
         </Grid.Col>
       </Grid>
     </Container>
