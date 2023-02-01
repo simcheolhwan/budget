@@ -31,7 +31,7 @@ const Year = () => {
       <Tabs variant="outline" orientation="vertical" defaultValue={{ income: "근로소득", expense: "전자제품" }[listKey]} key={listKey}>
         <Tabs.List>
           {categories.map((category) => {
-            const tabKey = category ?? "미분류"
+            const tabKey = category ?? "분류 없음"
             return (
               <Tabs.Tab value={tabKey} key={tabKey}>
                 {tabKey}
@@ -41,7 +41,7 @@ const Year = () => {
         </Tabs.List>
 
         {categories.map((category) => {
-          const tabKey = category ?? "미분류"
+          const tabKey = category ?? "분류 없음"
           const onRowClick = (item: Item) => openModal({ children: <SetItemForm listKey={listKey} initial={item} year={Number(year)} /> })
           return (
             <Tabs.Panel value={tabKey} pl="xs" key={tabKey}>
