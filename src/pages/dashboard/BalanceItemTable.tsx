@@ -47,7 +47,7 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
     }
 
     const auto = () => {
-      balance.updateAccount(account, { amount: amount - balanceError })
+      balance.updateAccount(account, { amount: balanceKey === "custody" ? amount + balanceError : amount - balanceError })
     }
 
     return (
