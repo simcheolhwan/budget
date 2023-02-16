@@ -2,7 +2,12 @@ import { PropsWithChildren } from "react"
 import { Button, Group } from "@mantine/core"
 import { closeAllModals } from "@mantine/modals"
 
-const DeleteButton = ({ title, children, onDelete }: PropsWithChildren<{ title: string; onDelete: () => Promise<void> }>) => {
+interface Props {
+  title: string
+  onDelete: () => Promise<void>
+}
+
+const DeleteButton = ({ title, children, onDelete }: PropsWithChildren<Props>) => {
   const submit = async () => {
     if (!window.confirm(`"${title}" 삭제`)) return
     await onDelete()

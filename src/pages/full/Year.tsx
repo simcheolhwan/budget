@@ -25,10 +25,14 @@ const Year = () => {
 
   if (groupKey === "category") {
     const getIndex = (category: string) => ui.groups.flat().indexOf(category)
-    const categories = [...new Set(list.map((item) => item.category))].sort((a = "", b = "") => getIndex(a) - getIndex(b))
+    const categories = [...new Set(list.map((item) => item.category))].sort(
+      (a = "", b = "") => getIndex(a) - getIndex(b)
+    )
+
+    const defaultValue = { income: "근로소득", expense: "전자제품" }[listKey]
 
     return (
-      <Tabs variant="outline" orientation="vertical" defaultValue={{ income: "근로소득", expense: "전자제품" }[listKey]} key={listKey}>
+      <Tabs variant="outline" orientation="vertical" defaultValue={defaultValue} key={listKey}>
         <Tabs.List>
           {categories.map((category) => {
             const tabKey = category ?? "분류 없음"
@@ -42,7 +46,9 @@ const Year = () => {
 
         {categories.map((category) => {
           const tabKey = category ?? "분류 없음"
-          const onRowClick = (item: Item) => openModal({ children: <SetItemForm listKey={listKey} initial={item} year={Number(year)} /> })
+          const onRowClick = (item: Item) =>
+            openModal({ children: <SetItemForm listKey={listKey} initial={item} year={Number(year)} /> })
+
           return (
             <Tabs.Panel value={tabKey} pl="xs" key={tabKey}>
               <ListTable list={list.filter((item) => item.category === category)} onRowClick={onRowClick} />
