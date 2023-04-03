@@ -10,7 +10,7 @@ export const useYearBalance = () => {
 }
 
 export const useBalanceError = () => {
-  const { bank, receivable, custody } = useBalance()
+  const { bank = [], receivable = [], custody = [] } = useBalance()
   const yearBalance = useYearBalance()
 
   const totalBank = sum(bank.map(({ amount }) => amount))

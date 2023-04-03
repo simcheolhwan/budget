@@ -9,9 +9,9 @@ interface Database {
 }
 
 interface Balance {
-  bank: Account[]
-  custody: Account[]
-  receivable: Account[]
+  bank?: Account[]
+  custody?: Account[]
+  receivable?: Account[]
 }
 
 type BalanceKey = keyof Balance

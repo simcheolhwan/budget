@@ -18,7 +18,7 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
   const { colors } = useMantineTheme()
   const balanceError = useBalanceError()
   const balance = useBalance()
-  const accounts = balance[balanceKey]
+  const accounts = balance[balanceKey] ?? []
 
   const categories = uniq(accounts.map(({ category }) => category).filter(Boolean))
   const hasCategory = categories.length > 0
