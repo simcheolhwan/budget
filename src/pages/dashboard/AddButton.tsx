@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react"
-import { IconMinus, IconPlus } from "@tabler/icons"
+import { IconMinus, IconPlus } from "@tabler/icons-react"
 import { ActionIcon } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 
