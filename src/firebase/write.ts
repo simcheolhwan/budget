@@ -29,7 +29,7 @@ export class BalanceController {
   }
 
   private async get(): Promise<MaybeFormValues<Account>[]> {
-    return await val(this.ref)
+    return (await val(this.ref)) ?? []
   }
 
   async update(accounts: MaybeFormValues<Account>[]) {
