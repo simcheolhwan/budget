@@ -16,7 +16,7 @@ type GroupKey = "" | "month" | "category"
 export const filterState = atom<FilterState>({
   key: "filter",
   default: {
-    year: String(thisYear - 1),
+    year: String(thisYear),
     listKey: "expense",
     groupKey: "category",
   },
