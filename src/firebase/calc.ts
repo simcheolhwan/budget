@@ -1,9 +1,10 @@
 import { sum } from "ramda"
-import { thisYear } from "./data"
+import { useViewYearMonth } from "../pages/dashboard/viewMonth"
 import { useBalance, useYear } from "./read"
 
 export const useYearBalance = () => {
-  const { income, expense } = useYear(thisYear)
+  const { year } = useViewYearMonth()
+  const { income, expense } = useYear(year)
   const totalIncome = sum(income.map(({ amount }) => amount))
   const totalExpense = sum(expense.map(({ amount }) => amount))
   return totalIncome - totalExpense

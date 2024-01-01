@@ -30,12 +30,14 @@ export const useAnnual = () => {
 
 export const useYear = (year: number) => {
   const annual = useAnnual()
-  return annual[String(year)]
+  return annual[String(year)] || { income: [], expense: [] }
 }
 
 export const useList = (listKey: ListKey, { year, month }: { year: number; month?: number }) => {
   const sortList = useSortList()
   const data = useYear(year)
+  if (!data) return []
+
   const { [listKey]: list } = data
   if (month) return sortList(list.filter((item) => item.month === month))
   return sortList(list)

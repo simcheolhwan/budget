@@ -29,7 +29,7 @@ export const useFilter = () => {
 export const useFilteredList = () => {
   const { year, listKey } = useFilter()
   const annual = useAnnual()
-  return annual[year][listKey]
+  return annual[year]?.[listKey] || []
 }
 
 export const useSetFilter = () => {

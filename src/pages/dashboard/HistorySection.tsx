@@ -1,17 +1,11 @@
-import { atom, useRecoilValue } from "recoil"
 import { Flex, Stack } from "@mantine/core"
-import { thisMonth, thisYear } from "../../firebase/data"
 import { useList } from "../../firebase/read"
+import { useViewYearMonth } from "./viewMonth"
 import HistoryItemTable from "./HistoryItemTable"
 import HistoryFooter from "./HistoryFooter"
 
-export const viewLastMonthState = atom({ key: "viewLastMonth", default: false })
-
 const HistorySection = () => {
-  const viewLastMonth = useRecoilValue(viewLastMonthState)
-
-  const year = thisYear
-  const month = viewLastMonth ? thisMonth - 1 : thisMonth
+  const { year, month } = useViewYearMonth()
 
   const income = useList("income", { year, month })
   const expense = useList("expense", { year, month })

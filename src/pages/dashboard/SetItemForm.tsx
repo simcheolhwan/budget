@@ -1,14 +1,15 @@
 import { Button, Select, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
-import { thisMonth } from "../../firebase/data"
 import { useUI } from "../../firebase/read"
 import { ListController } from "../../firebase/write"
+import { useViewYearMonth } from "./viewMonth"
 
 const SetItemForm = ({ year, listKey, initial }: { year: number; listKey: ListKey; initial?: Item }) => {
   const ui = useUI()
+  const { month } = useViewYearMonth()
 
-  const initialValues = { month: String(thisMonth), category: "", name: "", amount: "", memo: "" }
+  const initialValues = { month: String(month), category: "", name: "", amount: "", memo: "" }
   const { getInputProps, onSubmit } = useForm({ initialValues: { ...initialValues, ...initial } })
 
   const submit = onSubmit(async (values) => {
@@ -21,6 +22,7 @@ const SetItemForm = ({ year, listKey, initial }: { year: number; listKey: ListKe
   return (
     <form onSubmit={submit}>
       <Stack>
+        <TextInput label="년" defaultValue={year} />
         <TextInput label="월" {...getInputProps("month")} />
 
         {listKey === "expense" ? (

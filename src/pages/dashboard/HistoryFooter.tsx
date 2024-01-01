@@ -1,7 +1,7 @@
 import { useRecoilState } from "recoil"
 import { Group, Text, UnstyledButton } from "@mantine/core"
 import { useYearBalance } from "../../firebase/calc"
-import { viewLastMonthState } from "./HistorySection"
+import { viewLastMonthState } from "./viewMonth"
 
 const HistoryFooter = () => {
   const [viewLastMonth, setViewLastMonth] = useRecoilState(viewLastMonthState)

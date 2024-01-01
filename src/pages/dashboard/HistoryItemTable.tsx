@@ -2,20 +2,20 @@ import { Group, Menu, Table, Text } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 import { promptNumber } from "../../data/utils"
 import { useBalanceError } from "../../firebase/calc"
-import { thisYear } from "../../firebase/data"
 import { ListController } from "../../firebase/write"
+import { useViewYearMonth } from "./viewMonth"
 import AddButton from "./AddButton"
 import DeleteButton from "./DeleteButton"
 import SetItemForm from "./SetItemForm"
 
 const HistoryItemTable = ({ title, list, listKey }: { title: string; list: Item[]; listKey: ListKey }) => {
-  const year = thisYear
+  const { year } = useViewYearMonth()
   const balanceError = useBalanceError()
 
   const rows = list.map((item) => {
     const { amount, category, name, memo } = item
 
-    const list = new ListController(listKey)
+    const list = new ListController(listKey, year)
     const title = name ?? category ?? ""
 
     const open = () => {
