@@ -56,7 +56,10 @@ export class BalanceController {
 }
 
 export class ListController {
-  constructor(private key: ListKey, private year = thisYear) {}
+  constructor(
+    private key: ListKey,
+    private year = thisYear,
+  ) {}
 
   private get ref() {
     return ref(db, `/annual/${this.year}/${this.key}`)

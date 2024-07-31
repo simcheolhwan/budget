@@ -17,7 +17,7 @@ const DeleteButton = ({ title, children, onDelete }: PropsWithChildren<Props>) =
   return (
     <Group>
       {children}
-      <Button onClick={submit} variant="light" color="red" size="xs" compact>
+      <Button onClick={submit} variant="light" color="red" size="compact-xs">
         삭제
       </Button>
     </Group>

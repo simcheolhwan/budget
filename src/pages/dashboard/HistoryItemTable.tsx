@@ -39,23 +39,23 @@ const HistoryItemTable = ({ title, list, listKey }: { title: string; list: Item[
     }
 
     return (
-      <tr key={JSON.stringify(item)}>
-        <td width={80} onClick={open}>
-          {category && <Text color="dimmed">{category}</Text>}
-        </td>
+      <Table.Tr key={JSON.stringify(item)}>
+        <Table.Td width={80} onClick={open}>
+          {category && <Text c="dimmed">{category}</Text>}
+        </Table.Td>
 
-        <td onClick={open}>
+        <Table.Td onClick={open}>
           <Group>
             {name}
             {memo && (
-              <Text size="xs" color="dimmed">
+              <Text c="dimmed" fz="xs">
                 {memo}
               </Text>
             )}
           </Group>
-        </td>
+        </Table.Td>
 
-        <td align="right">
+        <Table.Td align="right">
           {balanceError ? (
             <Menu>
               <Menu.Target>
@@ -70,23 +70,23 @@ const HistoryItemTable = ({ title, list, listKey }: { title: string; list: Item[
           ) : (
             <Text onClick={edit}>{amount.toLocaleString()}</Text>
           )}
-        </td>
-      </tr>
+        </Table.Td>
+      </Table.Tr>
     )
   })
 
   return (
     <Table>
-      <caption>
-        <Group position="apart">
+      <Table.Caption>
+        <Group justify="space-between">
           {title}
           <AddButton title={title} minus={listKey === "expense"}>
             <SetItemForm year={year} listKey={listKey} />
           </AddButton>
         </Group>
-      </caption>
+      </Table.Caption>
 
-      <tbody>{rows}</tbody>
+      <Table.Tbody>{rows}</Table.Tbody>
     </Table>
   )
 }

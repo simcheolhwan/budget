@@ -8,7 +8,7 @@ const HistoryFooter = () => {
   const yearBalance = useYearBalance()
 
   return (
-    <Group position="apart">
+    <Group justify="space-between">
       {viewLastMonth ? (
         <UnstyledButton onClick={() => setViewLastMonth(false)} c="dimmed" fz="xs">
           이번 달 보기
@@ -19,7 +19,7 @@ const HistoryFooter = () => {
         </UnstyledButton>
       )}
 
-      <Text size="xs" color="dimmed" align="right">
+      <Text c="dimmed" fz="xs" ta="right">
         잔고 {yearBalance.toLocaleString()}
       </Text>
     </Group>

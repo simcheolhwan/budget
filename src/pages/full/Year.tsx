@@ -26,7 +26,7 @@ const Year = () => {
   if (groupKey === "category") {
     const getIndex = (category: string) => ui.groups.flat().indexOf(category)
     const categories = [...new Set(list.map((item) => item.category))].sort(
-      (a = "", b = "") => getIndex(a) - getIndex(b)
+      (a = "", b = "") => getIndex(a) - getIndex(b),
     )
 
     const defaultValue = { income: "근로소득", expense: "전자제품" }[listKey]

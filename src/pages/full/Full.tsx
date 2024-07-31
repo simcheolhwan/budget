@@ -11,11 +11,11 @@ const Full = () => {
 
   return (
     <Container size="sm">
-      <Stack spacing="xs">
+      <Stack gap="xs">
         <Filter />
         <ItemError />
 
-        <Tabs value={year} onTabChange={(year) => year && setFilter({ year })} orientation="vertical">
+        <Tabs value={year} onChange={(year) => year && setFilter({ year })} orientation="vertical">
           <Tabs.List>
             {years.map((year) => (
               <Tabs.Tab value={year} key={year}>

@@ -15,41 +15,41 @@ const ListTable = ({ caption, list, onRowClick }: Props) => {
 
   return (
     <Table>
-      {caption && <caption>{caption}</caption>}
+      {caption && <Table.Caption>{caption}</Table.Caption>}
 
       <thead>
-        <tr>
-          {groupKey !== "month" && <th>월</th>}
-          {groupKey !== "category" && <th>분류</th>}
-          <th>이름</th>
-          <th>
-            <Text align="right">{sum(list.map(({ amount }) => amount)).toLocaleString()}</Text>
-          </th>
-        </tr>
+        <Table.Tr>
+          {groupKey !== "month" && <Table.Th>월</Table.Th>}
+          {groupKey !== "category" && <Table.Th>분류</Table.Th>}
+          <Table.Th>이름</Table.Th>
+          <Table.Th>
+            <Text ta="right">{sum(list.map(({ amount }) => amount)).toLocaleString()}</Text>
+          </Table.Th>
+        </Table.Tr>
       </thead>
 
-      <tbody>
+      <Table.Tbody>
         {list.map((item) => {
           const { month, category, name, memo, amount } = item
           return (
-            <tr onClick={() => onRowClick?.(item)} key={JSON.stringify(item)}>
-              {groupKey !== "month" && <td style={{ width: "3rem" }}>{month}</td>}
-              {groupKey !== "category" && <td style={{ width: "5rem" }}>{category}</td>}
+            <Table.Tr onClick={() => onRowClick?.(item)} key={JSON.stringify(item)}>
+              {groupKey !== "month" && <Table.Td style={{ width: "3rem" }}>{month}</Table.Td>}
+              {groupKey !== "category" && <Table.Td style={{ width: "5rem" }}>{category}</Table.Td>}
 
-              <td>
+              <Table.Td>
                 <Group>
                   {name}
-                  <Text size="xs" color="dimmed">
+                  <Text c="dimmed" fz="xs">
                     {memo}
                   </Text>
                 </Group>
-              </td>
+              </Table.Td>
 
-              <td align="right">{amount.toLocaleString()}</td>
-            </tr>
+              <Table.Td align="right">{amount.toLocaleString()}</Table.Td>
+            </Table.Tr>
           )
         })}
-      </tbody>
+      </Table.Tbody>
     </Table>
   )
 }

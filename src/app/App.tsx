@@ -4,8 +4,14 @@ import AppHeader from "./AppHeader"
 
 const App = () => {
   return (
-    <AppShell header={<AppHeader />}>
-      <Outlet />
+    <AppShell header={{ height: 48 }} padding="md">
+      <AppShell.Header>
+        <AppHeader />
+      </AppShell.Header>
+
+      <AppShell.Main>
+        <Outlet />
+      </AppShell.Main>
     </AppShell>
   )
 }

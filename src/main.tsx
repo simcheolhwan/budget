@@ -2,33 +2,19 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { RecoilRoot } from "recoil"
-import { MantineProvider, MantineThemeOverride } from "@mantine/core"
+import { MantineProvider } from "@mantine/core"
 import { ModalsProvider } from "@mantine/modals"
 import routes from "./app/routes"
 import Auth from "./firebase/Auth"
 import Database from "./firebase/Database"
+import theme from "./theme"
+import "@mantine/core/styles.css"
+import "./index.css"
 
-const theme: MantineThemeOverride = {
-  colorScheme: "dark",
-  defaultRadius: "xs",
-  components: {
-    Table: {
-      defaultProps: { highlightOnHover: true, withBorder: true },
-      styles: { root: { fontFeatureSettings: `"tnum"` } },
-    },
-    Modal: {
-      defaultProps: { transitionDuration: 0, overflow: "inside" },
-    },
-    Menu: {
-      defaultProps: { transitionDuration: 0 },
-    },
-  },
-}
-
-createRoot(document.getElementById("root") as HTMLElement).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RecoilRoot>
-      <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+      <MantineProvider theme={theme} defaultColorScheme="dark">
         <ModalsProvider>
           <Auth>
             <Database>
@@ -38,5 +24,5 @@ createRoot(document.getElementById("root") as HTMLElement).render(
         </ModalsProvider>
       </MantineProvider>
     </RecoilRoot>
-  </StrictMode>
+  </StrictMode>,
 )

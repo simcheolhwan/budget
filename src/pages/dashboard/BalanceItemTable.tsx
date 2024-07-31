@@ -58,26 +58,24 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
     return (
       <Draggable index={index} draggableId={JSON.stringify(account)} key={JSON.stringify(account)}>
         {(provided) => (
-          <tr ref={provided.innerRef} {...provided.draggableProps}>
-            {showDragHandle && (
-              <td {...provided.dragHandleProps}>
-                <Flex>
-                  <IconGripVertical size="1rem" stroke={1.5} />
-                </Flex>
-              </td>
-            )}
+          <Table.Tr ref={provided.innerRef} {...provided.draggableProps}>
+            <Table.Td {...provided.dragHandleProps} hidden={!showDragHandle}>
+              <Flex>
+                <IconGripVertical size="1rem" stroke={1.5} />
+              </Flex>
+            </Table.Td>
 
             {hasCategory && (
-              <td onClick={open}>
-                <Text color={colors[color]?.[3]} size="sm">
+              <Table.Td onClick={open}>
+                <Text c={colors[color]?.[3]} fz="sm">
                   {category}
                 </Text>
-              </td>
+              </Table.Td>
             )}
 
-            <td onClick={open}>{name}</td>
+            <Table.Td onClick={open}>{name}</Table.Td>
 
-            <td align="right">
+            <Table.Td align="right">
               {balanceError ? (
                 <Menu>
                   <Menu.Target>
@@ -92,8 +90,8 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
               ) : (
                 <Text onClick={edit}>{amount.toLocaleString()}</Text>
               )}
-            </td>
-          </tr>
+            </Table.Td>
+          </Table.Tr>
         )}
       </Draggable>
     )
@@ -107,21 +105,21 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
         }
       >
         <Table>
-          <caption>
-            <Group position="apart">
+          <Table.Caption>
+            <Group justify="space-between">
               <Text onClick={() => setShowDragHandle((value) => !value)}>{title}</Text>
               <AddButton title={title}>
                 <SetAccountForm balanceKey={balanceKey} />
               </AddButton>
             </Group>
-          </caption>
+          </Table.Caption>
 
           <Droppable droppableId="dnd-list" direction="vertical">
             {(provided) => (
-              <tbody {...provided.droppableProps} ref={provided.innerRef}>
+              <Table.Tbody {...provided.droppableProps} ref={provided.innerRef}>
                 {rows}
                 {provided.placeholder}
-              </tbody>
+              </Table.Tbody>
             )}
           </Droppable>
         </Table>

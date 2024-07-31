@@ -6,10 +6,10 @@ const Dashboard = () => {
   return (
     <Container size="sm">
       <Grid>
-        <Grid.Col md={6}>
+        <Grid.Col span={{ md: 6 }}>
           <BalanceSection />
         </Grid.Col>
-        <Grid.Col md={6}>
+        <Grid.Col span={{ md: 6 }}>
           <HistorySection />
         </Grid.Col>
       </Grid>

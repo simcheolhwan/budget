@@ -46,7 +46,7 @@ export const useFilterState = () => {
 const Filter = () => {
   const [{ listKey, groupKey }, setFilter] = useFilterState()
   return (
-    <Group position="apart">
+    <Group justify="space-between">
       <Group>
         <SegmentedControl
           value={listKey}
