@@ -1,20 +1,19 @@
+import App from "./App"
 import Dashboard from "../pages/dashboard/Dashboard"
 import Full from "../pages/full/Full"
-import App from "./App"
+import Family from "../pages/family/Family"
 
 export const nav = [
-  { to: "/", children: "현황" },
-  { to: "/full", children: "전체" },
+  { path: "/", label: "현황", element: <Dashboard /> },
+  { path: "/full", label: "전체", element: <Full /> },
+  { path: "/family", label: "가족", element: <Family /> },
 ]
 
 const routes = [
   {
     path: "/",
     element: <App />,
-    children: [
-      { index: true, element: <Dashboard /> },
-      { path: "full", element: <Full /> },
-    ],
+    children: nav,
   },
 ]
 

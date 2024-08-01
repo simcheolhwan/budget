@@ -6,8 +6,10 @@ import classes from "./AppHeader.module.css"
 const AppHeader = () => {
   return (
     <Group gap={0} justify="center" style={{ height: "100%" }}>
-      {nav.map((link) => (
-        <NavLink {...link} className={classes.link} key={link.to} />
+      {nav.map(({ path, label }) => (
+        <NavLink to={path} className={classes.link} key={path}>
+          {label}
+        </NavLink>
       ))}
     </Group>
   )

@@ -5,6 +5,7 @@ interface Dictionary<A = string> {
 interface Database {
   balance: Balance
   annual: { [year: string]: List }
+  family: Family
   ui: { groups: string[][] }
 }
 
