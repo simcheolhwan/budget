@@ -1,7 +1,7 @@
 import { Button, Stack, Textarea } from "@mantine/core"
 import { getHotkeyHandler } from "@mantine/hooks"
 import { useForm } from "@mantine/form"
-import { closeAllModals } from "@mantine/modals"
+import { modals } from "@mantine/modals"
 import { ListController } from "../../firebase/write"
 import { useFilter, useFilteredList } from "./Filter"
 
@@ -15,7 +15,7 @@ const EditList = () => {
 
     try {
       await list.update(JSON.parse(value))
-      closeAllModals()
+      modals.closeAll()
     } catch (error) {
       alert(error)
     }

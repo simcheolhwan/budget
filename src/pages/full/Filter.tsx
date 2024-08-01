@@ -1,5 +1,5 @@
 import { Button, Group, SegmentedControl } from "@mantine/core"
-import { openModal } from "@mantine/modals"
+import { modals } from "@mantine/modals"
 import { atom, useRecoilValue, useSetRecoilState } from "recoil"
 import { thisYear } from "../../firebase/data"
 import { useAnnual } from "../../firebase/read"
@@ -70,7 +70,7 @@ const Filter = () => {
         />
       </Group>
 
-      <Button onClick={() => openModal({ children: <EditList /> })} variant="subtle" size="sm" color="gray">
+      <Button onClick={() => modals.open({ children: <EditList /> })} variant="subtle" size="sm" color="gray">
         편집
       </Button>
     </Group>

@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react"
 import { Button, Group } from "@mantine/core"
-import { closeAllModals } from "@mantine/modals"
+import { modals } from "@mantine/modals"
 
 interface Props {
   title: string
@@ -11,7 +11,7 @@ const DeleteButton = ({ title, children, onDelete }: PropsWithChildren<Props>) =
   const submit = async () => {
     if (!window.confirm(`"${title}" 삭제`)) return
     await onDelete()
-    closeAllModals()
+    modals.closeAll()
   }
 
   return (

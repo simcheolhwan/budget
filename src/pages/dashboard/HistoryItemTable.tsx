@@ -1,5 +1,5 @@
 import { Group, Menu, Table, Text } from "@mantine/core"
-import { openModal } from "@mantine/modals"
+import { modals } from "@mantine/modals"
 import { promptNumber } from "../../data/utils"
 import { useBalanceError } from "../../firebase/calc"
 import { ListController } from "../../firebase/write"
@@ -19,7 +19,7 @@ const HistoryItemTable = ({ title, list, listKey }: { title: string; list: Item[
     const title = name ?? category ?? ""
 
     const open = () => {
-      openModal({
+      modals.open({
         title: (
           <DeleteButton title={title} onDelete={() => list.deleteItem(item)}>
             {name}

@@ -2,7 +2,7 @@ import { useState } from "react"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { IconGripVertical } from "@tabler/icons-react"
 import { Box, Flex, Group, Menu, Table, Text, useMantineTheme } from "@mantine/core"
-import { openModal } from "@mantine/modals"
+import { modals } from "@mantine/modals"
 import { uniq } from "ramda"
 import { useBalanceError } from "../../firebase/calc"
 import { useBalance } from "../../firebase/read"
@@ -36,7 +36,7 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
     const color = ["red", "green", "orange", "cyan", "grape", "teal", "yellow", "indigo", "gray"][categoryIndex]
 
     const open = () => {
-      openModal({
+      modals.open({
         title: (
           <DeleteButton title={name} onDelete={() => balanceController.deleteAccount(account)}>
             {name}

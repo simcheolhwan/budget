@@ -1,6 +1,6 @@
 import { Button, Select, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { closeAllModals } from "@mantine/modals"
+import { modals } from "@mantine/modals"
 import { useUI } from "../../firebase/read"
 import { ListController } from "../../firebase/write"
 import { useViewYearMonth } from "./viewMonth"
@@ -16,7 +16,7 @@ const SetItemForm = ({ year, listKey, initial }: { year: number; listKey: ListKe
     const list = new ListController(listKey, year)
     if (initial) await list.updateItem(initial, values)
     else await list.addItem(values)
-    closeAllModals()
+    modals.closeAll()
   })
 
   return (

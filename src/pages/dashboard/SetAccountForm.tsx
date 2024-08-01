@@ -1,6 +1,6 @@
 import { Button, Group, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { closeAllModals } from "@mantine/modals"
+import { modals } from "@mantine/modals"
 import { BalanceController } from "../../firebase/write"
 
 const SetAccountForm = ({ balanceKey, initial }: { balanceKey: BalanceKey; initial?: Account }) => {
@@ -11,7 +11,7 @@ const SetAccountForm = ({ balanceKey, initial }: { balanceKey: BalanceKey; initi
     const balance = new BalanceController(balanceKey)
     if (initial) await balance.updateAccount(initial, values)
     else await balance.addAccount(values)
-    closeAllModals()
+    modals.closeAll()
   })
 
   return (

@@ -1,5 +1,5 @@
 import { Stack, Tabs } from "@mantine/core"
-import { openModal } from "@mantine/modals"
+import { modals } from "@mantine/modals"
 import { months } from "../../firebase/data"
 import { useUI } from "../../firebase/read"
 import SetItemForm from "../dashboard/SetItemForm"
@@ -47,7 +47,7 @@ const Year = () => {
         {categories.map((category) => {
           const tabKey = category ?? "분류 없음"
           const onRowClick = (item: Item) =>
-            openModal({ children: <SetItemForm listKey={listKey} initial={item} year={Number(year)} /> })
+            modals.open({ children: <SetItemForm listKey={listKey} initial={item} year={Number(year)} /> })
 
           return (
             <Tabs.Panel value={tabKey} pl="xs" key={tabKey}>
