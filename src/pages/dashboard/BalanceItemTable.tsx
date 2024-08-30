@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { IconGripVertical } from "@tabler/icons-react"
 import { Box, Flex, Group, Menu, Table, Text, useMantineTheme } from "@mantine/core"
 import { modals } from "@mantine/modals"
-import { uniq } from "ramda"
+import { sum, uniq } from "ramda"
 import { useBalanceError } from "../../firebase/calc"
 import { useBalance } from "../../firebase/read"
 import { BalanceController } from "../../firebase/write"
@@ -97,6 +97,8 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
     )
   })
 
+  const total = sum(accounts.map(({ amount }) => amount)).toLocaleString()
+
   return (
     <Box>
       <DragDropContext
@@ -107,7 +109,9 @@ const BalanceItemTable = ({ title, balanceKey }: Props) => {
         <Table>
           <Table.Caption>
             <Group justify="space-between">
-              <Text onClick={() => setShowDragHandle((value) => !value)}>{title}</Text>
+              <Text onClick={() => setShowDragHandle((value) => !value)}>
+                {title} {total}
+              </Text>
               <AddButton title={title}>
                 <SetAccountForm balanceKey={balanceKey} />
               </AddButton>
